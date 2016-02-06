@@ -1,4 +1,4 @@
-package com.placemi.core;
+package com.placemi.core.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
