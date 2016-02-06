@@ -1,12 +1,11 @@
-package com.placemi.core.controllers;
+package com.placemi.core.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by brendenpalmer on 20160206.
+ * @author Created by brendenpalmer on 2016-02-06.
  */
 
 @RestController
