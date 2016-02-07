@@ -3,12 +3,14 @@ package com.placemi.core.manager.impl;
 import com.placemi.core.dao.impl.ImageDAOImpl;
 import com.placemi.core.exceptions.ImageNotFoundException;
 import com.placemi.core.manager.ImageManager;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 /**
  * @author Created by brendenpalmer on 2016-02-06.
  */
+@Component
 public class ImageManagerImpl implements ImageManager {
     private ImageDAOImpl imageDAO = null;
 
@@ -24,7 +26,7 @@ public class ImageManagerImpl implements ImageManager {
             this.imageDAO = new ImageDAOImpl();
         }
 
-        return this.imageDAO.getImage();
+        return this.imageDAO.getImage().getImageByteArray();
     }
 
     /**

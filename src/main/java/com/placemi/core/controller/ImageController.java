@@ -2,6 +2,7 @@ package com.placemi.core.controller;
 
 import com.placemi.core.exceptions.ImageNotFoundException;
 import com.placemi.core.manager.impl.ImageManagerImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,8 +17,9 @@ import java.io.IOException;
 @RestController
 public class ImageController {
     @RequestMapping(value = "/{width}x{height}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-    public byte[] image() throws IOException, ImageNotFoundException {
-        return new ImageManagerImpl().getImage();
+    @Autowired
+    public byte[] image(ImageManagerImpl manager) throws IOException, ImageNotFoundException {
+        return manager.getImage();
     }
 
     @RequestMapping(value = "/g/{width}x{height}", method = RequestMethod.GET)

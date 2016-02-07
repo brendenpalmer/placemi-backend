@@ -51,9 +51,10 @@ public class ImagePathHelper {
     /**
      * Gets a random image path
      *
+     * @param id The ID or unique identifier
      * @return The random image path
      */
-    public static String getRandomImagePath() throws ImageNotFoundException {
+    public static String getRandomImagePath(String id) throws ImageNotFoundException {
         File directory = new File(basePath + "/random");
         File[] images = directory.listFiles((File dir, String name) ->
                 name.toLowerCase().endsWith(".png") ||

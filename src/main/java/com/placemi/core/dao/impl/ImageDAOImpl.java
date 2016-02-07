@@ -1,17 +1,10 @@
 package com.placemi.core.dao.impl;
 
 import com.placemi.commons.DatabaseHelper;
-import com.placemi.commons.ImagePathHelper;
 import com.placemi.core.dao.ImageDAO;
 import com.placemi.core.exceptions.ImageNotFoundException;
-import org.imgscalr.Scalr;
+import com.placemi.core.model.Image;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,29 +15,8 @@ import java.sql.SQLException;
  */
 public class ImageDAOImpl implements ImageDAO {
     @Override
-    public byte[] getImage() throws ImageNotFoundException {
-        try {
-            BufferedImage initial = ImageIO.read(new FileInputStream(ImagePathHelper.getRandomImagePath()));
-            int width = initial.getWidth();
-            int height = initial.getHeight();
-            Scalr.Mode mode = width >= height ? Scalr.Mode.FIT_TO_HEIGHT : Scalr.Mode.FIT_TO_WIDTH;
-            BufferedImage img = Scalr.resize(initial, mode, 1000, 1000);
-            width = img.getWidth();
-            height = img.getHeight();
-            img = Scalr.crop(img, Math.max(width / 2 - 500, 0), Math.max(height / 2 - 500, 0), 1000, 1000);
-            ByteArrayOutputStream bao = new ByteArrayOutputStream();
-
-            // Write to output stream
-            ImageIO.write(img, "jpg", bao);
-
-            return bao.toByteArray();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    public Image getImage() throws ImageNotFoundException {
+        return new Image();
     }
 
     @Override
