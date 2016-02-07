@@ -24,7 +24,14 @@ public class ImageDAOImpl implements ImageDAO {
     @Override
     public byte[] getImage() throws ImageNotFoundException {
         try {
-            BufferedImage img = Scalr.crop(ImageIO.read(new FileInputStream(ImagePathHelper.getRandomImagePath())), 1000, 1000);
+            BufferedImage initial = ImageIO.read(new FileInputStream(ImagePathHelper.getRandomImagePath()));
+            int width = initial.getWidth();
+            int height = initial.getHeight();
+            Scalr.Mode mode = width >= height ? Scalr.Mode.FIT_TO_HEIGHT : Scalr.Mode.FIT_TO_WIDTH;
+            BufferedImage img = Scalr.resize(initial, mode, 1000, 1000);
+            width = img.getWidth();
+            height = img.getHeight();
+            img = Scalr.crop(img, Math.max(width / 2 - 500, 0), Math.max(height / 2 - 500, 0), 1000, 1000);
             ByteArrayOutputStream bao = new ByteArrayOutputStream();
 
             // Write to output stream
