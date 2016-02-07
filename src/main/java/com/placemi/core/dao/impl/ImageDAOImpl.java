@@ -1,12 +1,17 @@
 package com.placemi.core.dao.impl;
 
 import com.placemi.commons.DatabaseHelper;
+import com.placemi.commons.ImagePathHelper;
 import com.placemi.core.dao.ImageDAO;
 import com.placemi.core.exceptions.ImageNotFoundException;
+import org.imgscalr.Scalr;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,24 +22,26 @@ import java.sql.SQLException;
  */
 public class ImageDAOImpl implements ImageDAO {
     @Override
-    public InputStream getImageLink() throws ImageNotFoundException {
-        InputStream is = null;
-
+    public byte[] getImage() throws ImageNotFoundException {
         try {
-            is = new FileInputStream("/img/random/cached/1920x1080.jpeg");
-        } catch (FileNotFoundException e) {
+            BufferedImage img = Scalr.crop(ImageIO.read(new FileInputStream(ImagePathHelper.getRandomImagePath())), 1000, 1000);
+            ByteArrayOutputStream bao = new ByteArrayOutputStream();
+
+            // Write to output stream
+            ImageIO.write(img, "jpg", bao);
+
+            return bao.toByteArray();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (is == null) {
-            throw new ImageNotFoundException();
-        }
-
-        return is;
+        return null;
     }
 
     @Override
-    public String getImageLink(String id) throws ImageNotFoundException {
+    public String getImage(String id) throws ImageNotFoundException {
         String link = null;
         try {
             Connection conn = DatabaseHelper.getConnection();

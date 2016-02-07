@@ -1,6 +1,6 @@
 package com.placemi.commons;
 
-import org.apache.commons.dbcp2.*;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;

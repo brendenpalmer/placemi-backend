@@ -3,7 +3,6 @@ package com.placemi.core.manager.impl;
 import com.placemi.core.dao.impl.ImageDAOImpl;
 import com.placemi.core.exceptions.ImageNotFoundException;
 import com.placemi.core.manager.ImageManager;
-import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 
@@ -25,7 +24,7 @@ public class ImageManagerImpl implements ImageManager {
             this.imageDAO = new ImageDAOImpl();
         }
 
-        return IOUtils.toByteArray(this.imageDAO.getImageLink());
+        return this.imageDAO.getImage();
     }
 
     /**
@@ -41,6 +40,6 @@ public class ImageManagerImpl implements ImageManager {
             this.imageDAO = new ImageDAOImpl();
         }
 
-        return this.imageDAO.getImageLink(id);
+        return this.imageDAO.getImage(id);
     }
 }
