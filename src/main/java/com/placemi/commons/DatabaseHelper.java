@@ -35,7 +35,7 @@ public final class DatabaseHelper {
     /**
      * Gets the database properties file
      *
-     * @return The database properties file
+     * @return The database properties
      * @throws IOException
      */
     private static synchronized Properties getProperties() throws IOException {

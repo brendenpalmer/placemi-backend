@@ -7,7 +7,7 @@ import com.placemi.core.model.Image;
  * @author Created by brendenpalmer on 2016-02-06.
  */
 public interface ImageDAO {
-    Image getImage() throws ImageNotFoundException;
+    Image getImage(int width, int height) throws ImageNotFoundException;
 
     String getImage(String id) throws ImageNotFoundException;
 }

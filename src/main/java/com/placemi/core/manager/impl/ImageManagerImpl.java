@@ -21,12 +21,12 @@ public class ImageManagerImpl implements ImageManager {
      * @throws ImageNotFoundException
      */
     @Override
-    public byte[] getImage() throws ImageNotFoundException, IOException {
+    public byte[] getImage(int width, int height) throws ImageNotFoundException, IOException {
         if (this.imageDAO == null) {
             this.imageDAO = new ImageDAOImpl();
         }
 
-        return this.imageDAO.getImage().getImageByteArray();
+        return this.imageDAO.getImage(width, height).getImageByteArray();
     }
 
     /**

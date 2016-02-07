@@ -14,11 +14,27 @@ import java.sql.SQLException;
  * @author Created by brendenpalmer on 2016-02-06.
  */
 public class ImageDAOImpl implements ImageDAO {
+    /**
+     * Gets the Image
+     *
+     * @return The image itself
+     * @throws ImageNotFoundException
+     */
     @Override
-    public Image getImage() throws ImageNotFoundException {
-        return new Image();
+    public Image getImage(int width, int height) throws ImageNotFoundException {
+        Image img = new Image();
+        img.setWidth(width);
+        img.setHeight(height);
+        return img;
     }
 
+    /**
+     * Gets the Image
+     *
+     * @param id The ID
+     * @return The image itself
+     * @throws ImageNotFoundException
+     */
     @Override
     public String getImage(String id) throws ImageNotFoundException {
         String link = null;
@@ -45,5 +61,15 @@ public class ImageDAOImpl implements ImageDAO {
         }
 
         return link;
+    }
+
+    /**
+     * Writes the image to the disk to cache
+     * it if necessary
+     *
+     * @param img The Image
+     */
+    private void writeCachedImage(Image img) {
+
     }
 }

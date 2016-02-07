@@ -18,8 +18,10 @@ import java.io.IOException;
 public class ImageController {
     @RequestMapping(value = "/{width}x{height}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     @Autowired
-    public byte[] image(ImageManagerImpl manager) throws IOException, ImageNotFoundException {
-        return manager.getImage();
+    public byte[] image(@PathParam("width") int width,
+                        @PathParam("height") int height,
+                        ImageManagerImpl imageManager) throws IOException, ImageNotFoundException {
+        return imageManager.getImage(width, height);
     }
 
     @RequestMapping(value = "/g/{width}x{height}", method = RequestMethod.GET)
@@ -28,10 +30,11 @@ public class ImageController {
     }
 
     @RequestMapping(value = "/{id}/{width}x{height}", method = RequestMethod.GET)
-    public String userImage(@PathParam("id") String id) {
+    @Autowired
+    public String userImage(@PathParam("id") String id,
+                            ImageManagerImpl imageManager) {
         try {
-            ImageManagerImpl tmp = new ImageManagerImpl();
-            return tmp.getImage(id);
+            return imageManager.getImage(id);
         } catch (ImageNotFoundException e) {
             e.printStackTrace();
         } catch (Exception e) {

@@ -1,10 +1,11 @@
 package com.placemi.commons;
 
 import com.placemi.core.exceptions.ImageNotFoundException;
+import com.placemi.core.model.Image;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -31,9 +32,9 @@ public class ImagePathHelper {
     }
 
     /**
-     * Gets the database properties file
+     * Gets the application properties file
      *
-     * @return The database properties file
+     * @return The application properties
      * @throws IOException
      */
     private static synchronized Properties getProperties() throws IOException {
@@ -49,18 +50,54 @@ public class ImagePathHelper {
     }
 
     /**
-     * Gets a random image path
+     * Gets the potential cached image path
      *
-     * @param id The ID or unique identifier
-     * @return The random image path
+     * @param img The image
+     * @return The potential cached image path
      */
-    public static String getRandomImagePath(String id) throws ImageNotFoundException {
+    public static String getCachedImagePath(Image img) {
+        String path = basePath;
+
+        if (StringUtils.isEmpty(img.getId())) {
+            path += "/random/images/cached/" +
+                    (img.isGrayscale() ? "1" : "0") +
+                    "quality" +
+                    Integer.toString(img.getQuality()) +
+                    "w" +
+                    Integer.toString(img.getWidth()) +
+                    "h" +
+                    Integer.toString(img.getHeight()) +
+                    img.getFileName();
+        } else {
+            path += "/img/uploads/cached/" +
+                    img.getId() + "/" +
+                    (img.isGrayscale() ? "1" : "0") +
+                    "quality" +
+                    Integer.toString(img.getQuality()) +
+                    "w" +
+                    Integer.toString(img.getWidth()) +
+                    "h" +
+                    Integer.toString(img.getHeight()) +
+                    img.getFileName();
+        }
+
+        return path;
+    }
+
+    /**
+     * Gets the correct image path for a random image
+     *
+     * @return The random image path
+     * @throws ImageNotFoundException
+     */
+    public static String getBaseImagePath() throws ImageNotFoundException {
         File directory = new File(basePath + "/random");
         File[] images = directory.listFiles((File dir, String name) ->
                 name.toLowerCase().endsWith(".png") ||
                         name.toLowerCase().endsWith(".jpg") ||
                         name.toLowerCase().endsWith(".jpeg")
         );
+
         long length = images.length;
 
         if (length == 0) {
@@ -69,5 +106,25 @@ public class ImagePathHelper {
 
         int index = (int) (Math.random() * ((length - 1) + 1));
         return images[index].getPath();
+    }
+
+    /**
+     * Gets the correct image path. If no ID is
+     * provided then a random image will be provided.
+     * Otherwise, the image path will be returned
+     * based on the ID.
+     *
+     * @param fileName The filename
+     * @return The image path
+     * @throws ImageNotFoundException
+     */
+    public static String getBaseImagePath(String fileName) throws ImageNotFoundException {
+        File img = new File(basePath + "/img/uploads/" + fileName);
+
+        if (img.length() == 0) {
+            throw new ImageNotFoundException();
+        }
+
+        return img.getPath();
     }
 }
