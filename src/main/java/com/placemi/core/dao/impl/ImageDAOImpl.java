@@ -3,12 +3,9 @@ package com.placemi.core.dao.impl;
 import com.placemi.commons.DatabaseHelper;
 import com.placemi.core.dao.ImageDAO;
 import com.placemi.core.exceptions.ImageNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.ServletContext;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,11 +22,12 @@ public class ImageDAOImpl implements ImageDAO {
 
         try {
             is = new FileInputStream("/img/random/cached/1920x1080.jpeg");
-            //is.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+
+        if (is == null) {
+            throw new ImageNotFoundException();
         }
 
         return is;
