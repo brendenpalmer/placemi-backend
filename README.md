@@ -14,6 +14,16 @@ cd CLONED_REPO_DIR
 mvn clean install
 ```
 
+Then, ensure you create two properties files under /src/main/resources:
+
+1. application.properties
+ - base.image.path=/PATH/WHERE/IMAGES/ARE/STORED
+2. database.properties
+ - driver=com.mysql.jdbc.Driver
+ - url=URL_TO_DATABASE/SCHEMA
+ - username=username
+ - password=password
+
 ## Usage
 
 If you're interested in contributing, see the [Contributing](https://github.com/brendenpalmer/placemi-backend#contributing) section below.
