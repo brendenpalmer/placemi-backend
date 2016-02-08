@@ -22,12 +22,13 @@ public class ImageController {
     @RequestMapping(value = "/{width}x{height}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] image(@PathVariable String width,
                         @PathVariable String height) throws IOException, ImageNotFoundException {
-        return imageManager.getImage(Integer.parseInt(width), Integer.parseInt(height));
+        return imageManager.getImage(Integer.parseInt(width), Integer.parseInt(height), false);
     }
 
     @RequestMapping(value = "/g/{width}x{height}", method = RequestMethod.GET)
-    public String grayscaleImage() {
-        return "Grayscale test";
+    public byte[] grayscaleImage(@PathVariable String width,
+                                 @PathVariable String height) throws IOException, ImageNotFoundException {
+        return imageManager.getImage(Integer.parseInt(width), Integer.parseInt(height), true);
     }
 
     @RequestMapping(value = "/{id}/{width}x{height}", method = RequestMethod.GET)

@@ -19,12 +19,15 @@ public class ImageManagerImpl implements ImageManager {
     /**
      * Gets a random image
      *
+     * @param width     The width
+     * @param height    The height
+     * @param grayscale Whether or not to return the image in black and white
      * @return The image
      * @throws ImageNotFoundException
      */
     @Override
-    public byte[] getImage(int width, int height) throws ImageNotFoundException, IOException {
-        return imageDAO.getImage(width, height).getImageByteArray();
+    public byte[] getImage(int width, int height, boolean grayscale) throws ImageNotFoundException, IOException {
+        return imageDAO.getImage(width, height, grayscale).getImageByteArray();
     }
 
     /**

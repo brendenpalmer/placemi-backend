@@ -8,7 +8,7 @@ import java.io.IOException;
  * @author Created by brendenpalmer on 2016-02-06.
  */
 public interface ImageManager {
-    byte[] getImage(int width, int height) throws ImageNotFoundException, IOException;
+    byte[] getImage(int width, int height, boolean grayscale) throws ImageNotFoundException, IOException;
 
     String getImage(String id) throws ImageNotFoundException;
 }

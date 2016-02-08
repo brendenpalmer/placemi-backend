@@ -19,14 +19,18 @@ public class ImageDAOImpl implements ImageDAO {
     /**
      * Gets the Image
      *
+     * @param width     The width
+     * @param height    The height
+     * @param grayscale Whether or not to return the image in black and white
      * @return The image itself
      * @throws ImageNotFoundException
      */
     @Override
-    public Image getImage(int width, int height) throws ImageNotFoundException {
+    public Image getImage(int width, int height, boolean grayscale) throws ImageNotFoundException {
         Image img = new Image();
         img.setWidth(width);
         img.setHeight(height);
+        img.setGrayscale(grayscale);
         return img;
     }
 
