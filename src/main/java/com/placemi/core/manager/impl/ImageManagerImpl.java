@@ -3,6 +3,7 @@ package com.placemi.core.manager.impl;
 import com.placemi.core.dao.impl.ImageDAOImpl;
 import com.placemi.core.exceptions.ImageNotFoundException;
 import com.placemi.core.manager.ImageManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -12,7 +13,8 @@ import java.io.IOException;
  */
 @Component
 public class ImageManagerImpl implements ImageManager {
-    private ImageDAOImpl imageDAO = null;
+    @Autowired
+    private ImageDAOImpl imageDAO;
 
     /**
      * Gets a random image
@@ -22,11 +24,7 @@ public class ImageManagerImpl implements ImageManager {
      */
     @Override
     public byte[] getImage(int width, int height) throws ImageNotFoundException, IOException {
-        if (this.imageDAO == null) {
-            this.imageDAO = new ImageDAOImpl();
-        }
-
-        return this.imageDAO.getImage(width, height).getImageByteArray();
+        return imageDAO.getImage(width, height).getImageByteArray();
     }
 
     /**
@@ -38,10 +36,6 @@ public class ImageManagerImpl implements ImageManager {
      */
     @Override
     public String getImage(String id) throws ImageNotFoundException {
-        if (this.imageDAO == null) {
-            this.imageDAO = new ImageDAOImpl();
-        }
-
-        return this.imageDAO.getImage(id);
+        return imageDAO.getImage(id);
     }
 }

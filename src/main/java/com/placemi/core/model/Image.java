@@ -1,15 +1,10 @@
 package com.placemi.core.model;
 
 import com.placemi.commons.ImageDefaults;
+import com.placemi.commons.ImageManipulator;
 import com.placemi.commons.ImagePathHelper;
 import com.placemi.core.exceptions.ImageNotFoundException;
-import org.imgscalr.Scalr;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.nio.file.Paths;
 
 /**
@@ -169,39 +164,13 @@ public class Image {
     /**
      * Gets the byte array image representation
      *
-     * @return The byte[] image
+     * @return The image byte[]
      */
     public byte[] getImageByteArray() {
-        BufferedImage initial = null;
-        try {
-            initial = ImageIO.read(new FileInputStream(ImagePathHelper.getBaseImagePath(this.getId())));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ImageNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        assert initial != null;
-        int width = initial.getWidth();
-        int height = initial.getHeight();
-        Scalr.Mode mode = width >= height ? Scalr.Mode.FIT_TO_HEIGHT : Scalr.Mode.FIT_TO_WIDTH;
-        BufferedImage img = Scalr.resize(initial, mode, this.getWidth(), this.getHeight());
-        width = img.getWidth();
-        height = img.getHeight();
-        img = Scalr.crop(img,
-                Math.max(width / 2 - (this.getWidth() / 2), 0),
-                Math.max(height / 2 - (this.getHeight() / 2), 0),
+        return ImageManipulator.resize(this.getBaseImagePath(),
                 this.getWidth(),
-                this.getHeight());
-        ByteArrayOutputStream bao = new ByteArrayOutputStream();
-
-        // Write to output stream
-        try {
-            ImageIO.write(img, "jpg", bao);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return bao.toByteArray();
+                this.getHeight(),
+                this.getQuality(),
+                this.isGrayscale());
     }
 }

@@ -4,6 +4,7 @@ import com.placemi.commons.DatabaseHelper;
 import com.placemi.core.dao.ImageDAO;
 import com.placemi.core.exceptions.ImageNotFoundException;
 import com.placemi.core.model.Image;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 /**
  * @author Created by brendenpalmer on 2016-02-06.
  */
+@Component
 public class ImageDAOImpl implements ImageDAO {
     /**
      * Gets the Image
